@@ -10,20 +10,21 @@ namespace Task1shipBattle
     public class Gun
     {
         public string Name { get; }
+        public GunType Type { get; }
         public int ReloadTurns { get; }
         public int CurrentCooldown { get; private set; }
         public bool IsReady => CurrentCooldown <= 0;
         public Ammunition DefaultAmmo { get; private set; }
 
-        // Характеристики пробития орудия
-        public bool PenetratesAllArmor { get; }  // Пробивает любую броню (ГК)
-        public bool IgnoresArmor { get; }  // Игнорирует броню (торпеды)
-        public ArmorType PenetratesArmor { get; }  // Какую броню пробивает (универсальные)
+        public bool PenetratesAllArmor { get; }
+        public bool IgnoresArmor { get; } 
+        public ArmorType PenetratesArmor { get; } 
 
         public List<Projectile> InFlightProjectiles { get; } = new List<Projectile>();
 
         private Gun(
             string name,
+            GunType type,
             int reloadTurns,
             Ammunition defaultAmmo,
             bool penetratesAllArmor = false,
@@ -31,6 +32,7 @@ namespace Task1shipBattle
             ArmorType penetratesArmor = ArmorType.ArmoredBelt)
         {
             Name = name;
+            Type = type;
             ReloadTurns = reloadTurns;
             DefaultAmmo = defaultAmmo;
             CurrentCooldown = 0;
@@ -39,22 +41,30 @@ namespace Task1shipBattle
             PenetratesArmor = penetratesArmor;
         }
 
-        // Фабричные методы для создания орудий
         public static Gun CreateMainGun(Ammunition ammo)
         {
-            return new Gun("Башня ГК", 2, ammo, penetratesAllArmor: true);
+            return new Gun("Башня ГК", GunType.MainGun, 2, ammo, penetratesAllArmor: true);
         }
 
         public static Gun CreateUniversalGun(Ammunition ammo)
         {
-            return new Gun("Универсальное орудие", 1, ammo, penetratesArmor: ArmorType.Kazemat);
+            return new Gun("Универсальное орудие", GunType.Universal, 1, ammo, penetratesArmor: ArmorType.Kazemat);
         }
 
         public static Gun CreateTorpedoTube(Ammunition ammo)
         {
-            return new Gun("Торпедный аппарат", 1, ammo, ignoresArmor: true);
+            return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1, ammo, ignoresArmor: true);
         }
+        public bool CanFireWith(Ammunition ammo)
+        {
+            if (ammo.Type == AmmoType.Torped && Type != GunType.TorpedoTube)
+                return false;
 
+            if (Type == GunType.TorpedoTube && ammo.Type != AmmoType.Torped)
+                return false;
+
+            return true;
+        }
         public void EndTurn()
         {
             if (CurrentCooldown > 0)
@@ -78,6 +88,12 @@ namespace Task1shipBattle
             firedProjectile = null;
             if (!IsReady)
                 return false;
+
+            if (!CanFireWith(DefaultAmmo))
+            {
+                Console.WriteLine($"{Name} не может стрелять снарядом {DefaultAmmo.GetName()}!");
+                return false;
+            }
 
             CurrentCooldown = ReloadTurns;
 
