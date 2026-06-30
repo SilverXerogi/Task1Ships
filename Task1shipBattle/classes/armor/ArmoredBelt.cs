@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 using static Task1shipBattle.Armor;
 
 namespace Task1shipBattle
@@ -14,7 +14,7 @@ namespace Task1shipBattle
         {
 
         }
-        public override float GetDef(AmmoType ammoType)
+        public override Single GetDef(AmmoType ammoType)
         {
             return 0.3f;
         }

@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\armor\antiTorped.cs" />
+    <Compile Include="classes\armor\AntiTorped.cs" />
     <Compile Include="classes\armor\ArmoredBelt.cs" />
     <Compile Include="classes\armor\Kazemat.cs" />
     <Compile Include="classes\ships\Battleship.cs" />
@@ -51,7 +51,7 @@
     <Compile Include="classes\ships\Destroyer.cs" />
     <Compile Include="classes\weapons\Ammunition.cs" />
     <Compile Include="classes\armor\Armor.cs" />
-    <Compile Include="classes\enums\enums.cs" />
+    <Compile Include="classes\enums\Enums.cs" />
     <Compile Include="classes\ships\ship.cs" />
     <Compile Include="classes\weapons\DamageCalculator.cs" />
     <Compile Include="classes\weapons\Gun.cs" />

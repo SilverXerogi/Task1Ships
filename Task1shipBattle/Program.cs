@@ -8,9 +8,9 @@ using Task1shipBattle.classes.weapons;
 
 namespace Task1shipBattle
 {
-    internal class Program
+    class Program
     {
-        static void Main(string[] args)
+        static void Main(String[] args)
         {
             Console.WriteLine("ЭТАП 1: Тест кораблей\n");
 
@@ -48,7 +48,7 @@ namespace Task1shipBattle
             Console.WriteLine("\nТест урона и уклонения");
 
             Console.WriteLine($"\n{destroyer.Name} (уклонение 15%):");
-            for (int i = 0; i < 5; i++)
+            for (Int32 i = 0; i < 5; i++)
             {
                 destroyer.TakeDamage(50);
             }
@@ -69,35 +69,35 @@ namespace Task1shipBattle
             
 
             // Создаем броню
-            Armor ptz = new antiTorped();
+            Armor ptz = new AntiTorped();
             Armor belt = new ArmoredBelt();
 
             Console.WriteLine("--- Тест 1: Бронебойный vs ПТЗ (гасится) ---");
-            float dmg1 = DamageCalculator.CalculateHit(mainGun, apShell, ptz);
+            Single dmg1 = DamageCalculator.CalculateHit(mainGun, apShell, ptz);
             Console.WriteLine($"ГК (бронебойный) vs ПТЗ: {dmg1} урона (ожидается: 0)");
 
             Console.WriteLine("\n--- Тест 2: Бронебойный vs Пояс ---");
-            float dmg2 = DamageCalculator.CalculateHit(mainGun, apShell, belt);
+            Single dmg2 = DamageCalculator.CalculateHit(mainGun, apShell, belt);
             Console.WriteLine($"ГК (бронебойный) vs Пояс: {dmg2} урона");
 
             Console.WriteLine("\n--- Тест 3: Торпеда из универсального орудия (запрещено) ---");
-            bool canFire = universalGun.CanFireWith(torpedo);
+            Boolean canFire = universalGun.CanFireWith(torpedo);
             Console.WriteLine($"Универсальное орудие может стрелять торпедой: {canFire} (ожидается: False)");
 
             Console.WriteLine("\n--- Тест 4: Торпеда из торпедного аппарата ---");
-            bool canFire2 = torpedoTube.CanFireWith(torpedo);
+            Boolean canFire2 = torpedoTube.CanFireWith(torpedo);
             Console.WriteLine($"Торпедный аппарат может стрелять торпедой: {canFire2} (ожидается: True)");
 
             Console.WriteLine("\n--- Тест 5: Бронебойный из торпедного аппарата (запрещено) ---");
-            bool canFire3 = torpedoTube.CanFireWith(apShell);
+            Boolean canFire3 = torpedoTube.CanFireWith(apShell);
             Console.WriteLine($"Торпедный аппарат может стрелять бронебойным: {canFire3} (ожидается: False)");
 
             Console.WriteLine("\n--- Тест 6: Торпеда vs ПТЗ (двойной урон) ---");
-            float dmg6 = DamageCalculator.CalculateHit(torpedoTube, torpedo, ptz);
+            Single dmg6 = DamageCalculator.CalculateHit(torpedoTube, torpedo, ptz);
             Console.WriteLine($"Торпеда vs ПТЗ: {dmg6} урона (ожидается: 40 = 20*2)");
 
             Console.WriteLine("\n--- Тест 7: Торпеда vs Пояс (игнорирует броню) ---");
-            float dmg7 = DamageCalculator.CalculateHit(torpedoTube, torpedo, belt);
+            Single dmg7 = DamageCalculator.CalculateHit(torpedoTube, torpedo, belt);
             Console.WriteLine($"Торпеда vs Пояс: {dmg7} урона (ожидается: 20)");
         }
     }

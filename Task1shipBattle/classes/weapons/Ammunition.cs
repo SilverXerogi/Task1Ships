@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 using static Task1shipBattle.Armor;
 
 namespace Task1shipBattle
@@ -12,11 +12,11 @@ namespace Task1shipBattle
     public class Ammunition
     {
         public AmmoType Type { get; }
-        public float BaseDamage { get; }
-        public float PenetrationMultiplier { get; } 
-        public int FlightTurns { get; } 
+        public Single BaseDamage { get; }
+        public Single PenetrationMultiplier { get; } 
+        public Int32 FlightTurns { get; } 
 
-        private Ammunition(AmmoType type, float baseDamage, float multiplier, int flightTurns = 0)
+        private Ammunition(AmmoType type, Single baseDamage, Single multiplier, Int32 flightTurns = 0)
         {
             Type = type;
             BaseDamage = baseDamage;
@@ -39,7 +39,7 @@ namespace Task1shipBattle
             return new Ammunition(AmmoType.Torped, 20f, 2.0f, flightTurns: 1);
         }
 
-        public string GetName()
+        public String GetName()
         {
             switch (Type)
             {

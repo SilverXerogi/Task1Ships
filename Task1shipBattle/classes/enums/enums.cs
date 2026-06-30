@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task1shipBattle
 {
-    public class enums
+    public class Enums
     {
         public enum AmmoType
         {

@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
 {
     public class Gun
     {
-        public string Name { get; }
+        public String Name { get; }
         public GunType Type { get; }
-        public int ReloadTurns { get; }
-        public int CurrentCooldown { get; private set; }
-        public bool IsReady => CurrentCooldown <= 0;
+        public Int32 ReloadTurns { get; }
+        public Int32 CurrentCooldown { get; private set; }
+        public Boolean IsReady => CurrentCooldown <= 0;
         public Ammunition DefaultAmmo { get; private set; }
 
-        public bool PenetratesAllArmor { get; }
-        public bool IgnoresArmor { get; } 
+        public Boolean PenetratesAllArmor { get; }
+        public Boolean IgnoresArmor { get; } 
         public ArmorType PenetratesArmor { get; } 
 
         public List<Projectile> InFlightProjectiles { get; } = new List<Projectile>();
 
         private Gun(
-            string name,
+            String name,
             GunType type,
-            int reloadTurns,
+            Int32 reloadTurns,
             Ammunition defaultAmmo,
-            bool penetratesAllArmor = false,
-            bool ignoresArmor = false,
+            Boolean penetratesAllArmor = false,
+            Boolean ignoresArmor = false,
             ArmorType penetratesArmor = ArmorType.ArmoredBelt)
         {
             Name = name;
@@ -55,7 +55,7 @@ namespace Task1shipBattle
         {
             return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1, ammo, ignoresArmor: true);
         }
-        public bool CanFireWith(Ammunition ammo)
+        public Boolean CanFireWith(Ammunition ammo)
         {
             if (ammo.Type == AmmoType.Torped && Type != GunType.TorpedoTube)
                 return false;
@@ -83,7 +83,7 @@ namespace Task1shipBattle
             return arrived;
         }
 
-        public bool TryFire(Armor targetArmor, out Projectile firedProjectile)
+        public Boolean TryFire(Armor targetArmor, out Projectile firedProjectile)
         {
             firedProjectile = null;
             if (!IsReady)

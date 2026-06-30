@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
 {
     public class Destroyer : Ship
     {
-        public override bool CanEquipTorpedoTube => true;
+        public override Boolean CanEquipTorpedoTube => true;
 
-        public Destroyer(string name = "Эсминец"): base(name, ShipType.Destroyer, maxHP: 400f, evasionChance: 0.15f){ }
+        public Destroyer(String name = "Эсминец"): base(name, ShipType.Destroyer, maxHP: 400f, evasionChance: 0.15f){ }
     }
 }

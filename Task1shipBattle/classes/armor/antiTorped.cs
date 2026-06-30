@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 using static Task1shipBattle.Armor;
 
 namespace Task1shipBattle
 {
-    public class antiTorped : Armor
+    public class AntiTorped : Armor
     {
-        public antiTorped() : base("Противоторпедная защита")
+        public AntiTorped() : base("Противоторпедная защита")
         {
 
         }
-        public override float GetDef(AmmoType ammoType)
+        public override Single GetDef(AmmoType ammoType)
         {
             if (ammoType == AmmoType.Torped)
             {

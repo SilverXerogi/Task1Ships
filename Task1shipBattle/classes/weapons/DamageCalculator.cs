@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle.classes.weapons
 {
     public static class DamageCalculator
     {
-        public static float CalculateHit(Gun gun, Ammunition ammo, Armor targetArmor)
+        public static Single CalculateHit(Gun gun, Ammunition ammo, Armor targetArmor)
         {
-            float baseDamage = ammo.BaseDamage;
+            Single baseDamage = ammo.BaseDamage;
 
-            if (ammo.Type == AmmoType.AP && targetArmor is antiTorped)
+            if (ammo.Type == AmmoType.AP && targetArmor is AntiTorped)
             {
                 return 0f; 
             }
 
             if (gun.IgnoresArmor)
             {
-                if (targetArmor is antiTorped)
+                if (targetArmor is AntiTorped)
                 {
                     return baseDamage * ammo.PenetrationMultiplier;
                 }
                 return baseDamage;
             }
 
-            bool isPenetration = gun.PenetratesAllArmor ||
+            Boolean isPenetration = gun.PenetratesAllArmor ||
                                  gun.PenetratesArmor == GetArmorType(targetArmor);
 
             if (isPenetration)
@@ -36,7 +36,7 @@ namespace Task1shipBattle.classes.weapons
             }
             else
             {
-                float protection = targetArmor.GetDef(ammo.Type);
+                Single protection = targetArmor.GetDef(ammo.Type);
                 return baseDamage * (1 - protection);
             }
         }
@@ -45,7 +45,7 @@ namespace Task1shipBattle.classes.weapons
         {
             if (armor is ArmoredBelt) return ArmorType.ArmoredBelt;
             if (armor is Kazemat) return ArmorType.Kazemat;
-            if (armor is antiTorped) return ArmorType.antiTorped;
+            if (armor is AntiTorped) return ArmorType.antiTorped;
             throw new ArgumentException("Неизвестный тип брони");
         }
     }

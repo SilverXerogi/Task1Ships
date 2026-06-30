@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Task1shipBattle.enums;
+using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
 {
     public abstract class Ship
     {
-        public string Name { get;  set; }
-        public ShipType Type { get;  set; }
-        public float MaxHP { get;  set; }
-        public float CurrentHP { get;  set; }
-        public float EvasionChance { get;  set; } 
+        public String Name { get;}
+        public ShipType Type { get;}
+        public Single MaxHP { get;}
+        public Single CurrentHP { get; private set; }
+        public Single EvasionChance { get;} 
 
-        public Gun Gun { get;  set; }
-        public Armor Armor { get;  set; }
+        public Gun Gun { get; private set; }
+        public Armor Armor { get; private set; }
 
-        public bool IsAlive => CurrentHP > 0;
+        public Boolean IsAlive => CurrentHP > 0;
 
-        public abstract bool CanEquipTorpedoTube { get; }
+        public abstract Boolean CanEquipTorpedoTube { get; }
 
         private static readonly Random random = new Random();
 
-        protected Ship(string name, ShipType type, float maxHP, float evasionChance)
+        protected Ship(String name, ShipType type, Single maxHP, Single evasionChance)
         {
             Name = name;
             Type = type;
@@ -48,7 +48,7 @@ namespace Task1shipBattle
             Console.WriteLine($"{Name} оснащён: {gun.Name} + {armor.Name}");
         }
 
-        public bool TryEvade()
+        public Boolean TryEvade()
         {
             if (EvasionChance <= 0) return false;
 
@@ -56,7 +56,7 @@ namespace Task1shipBattle
             return roll < EvasionChance;
         }
 
-        public float TakeDamage(float damage)
+        public Single TakeDamage(Single damage)
         {
             if (!IsAlive) return 0;
 
@@ -85,7 +85,7 @@ namespace Task1shipBattle
             CurrentHP = MaxHP;
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             return $"{Name} ({Type}) - HP: {CurrentHP:F0}/{MaxHP:F0}, Уклонение: {EvasionChance:P0}";
         }
