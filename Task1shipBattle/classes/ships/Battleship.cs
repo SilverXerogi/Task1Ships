@@ -11,6 +11,8 @@ namespace Task1shipBattle.classes.ships
     {
         public override Boolean CanEquipTorpedoTube => false;
 
+        public override Single RicochetChance => 0.20f;
+
         public Battleship(String name = "Линкор"): base(name, ShipType.Battleship, maxHP: 820f, evasionChance: 0f){ }
     }
 }

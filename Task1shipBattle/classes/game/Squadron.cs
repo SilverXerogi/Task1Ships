@@ -12,7 +12,10 @@ namespace Task1shipBattle
     {
         public String Name { get; }
         public List<Ship> Ships { get; } = new List<Ship>();
+
+        public ITactic Tactic { get; set; }
         public Ship CommanderTarget { get; set; }
+
         public Squadron(String name) 
         {
             Name = name;
@@ -34,12 +37,24 @@ namespace Task1shipBattle
 
         public void PrintStatus()
         {
-            Console.WriteLine($"Команда '{Name}'");
+            Console.WriteLine($"\nКоманда '{Name}'");
                 foreach (var  ship in Ships)
             {
                 String status = ship.IsAlive ? "Живой" : "Мертвый";
                 Console.WriteLine($"{ship} {status}");
             }
+        }
+        public void SetTactic(ITactic tactic)
+        {
+            Tactic = tactic;
+            Console.WriteLine($"Эскадра '{Name}' использует тактику: {tactic.Name}");
+        }
+
+        public void SetCommanderTarget(Ship target)
+        {
+            CommanderTarget = target;
+            if (target != null)
+                Console.WriteLine($"Командир '{Name}' назначил цель: {target.Name}");
         }
 
 

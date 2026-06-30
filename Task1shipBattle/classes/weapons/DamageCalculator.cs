@@ -9,39 +9,45 @@ namespace Task1shipBattle.classes.weapons
 {
     public static class DamageCalculator
     {
-        public static Single CalculateHit(Gun gun, Ammunition ammo, Armor targetArmor)
+        public static float CalculateHit(Gun gun, Ammunition ammo, Armor targetArmor)
         {
-            Single gunDamage = gun.GetRandomDamage();
-            Single ammoDamage = ammo.BaseDamage;
-            Single totalBaseDamage = gunDamage + ammoDamage;
+            float gunDamage = gun.GetRandomDamage();
+            float ammoDamage = ammo.BaseDamage;
+            float totalBaseDamage = gunDamage + ammoDamage;
 
             if (ammo.Type == AmmoType.AP && targetArmor is AntiTorped)
             {
-                return 0f; 
+                return 0f;
             }
 
-            if (gun.IgnoresArmor)
+            if (ammo.Type == AmmoType.Torped)
             {
                 if (targetArmor is AntiTorped)
                 {
-                    return totalBaseDamage * ammo.PenetrationMultiplier;
+                    float ptzProtection = targetArmor.GetDef(ammo.Type); 
+                    float finalDamage = totalBaseDamage * (1 - ptzProtection);
+                    return finalDamage;
                 }
-                return totalBaseDamage;
+
+                return totalBaseDamage * ammo.PenetrationMultiplier; 
             }
 
-            Boolean isPenetration = gun.PenetratesAllArmor ||
+            bool isPenetration = gun.PenetratesAllArmor ||
                                  gun.PenetratesArmor == GetArmorType(targetArmor);
+
+            float armorProtection = targetArmor.GetDef(ammo.Type);
 
             if (isPenetration)
             {
-                return totalBaseDamage * ammo.PenetrationMultiplier;
+                float damageWithMultiplier = totalBaseDamage * ammo.PenetrationMultiplier;
+                return damageWithMultiplier * (1 - armorProtection);
             }
             else
             {
-                Single protection = targetArmor.GetDef(ammo.Type);
-                return totalBaseDamage * (1 - protection);
+                return totalBaseDamage * (1 - armorProtection);
             }
         }
+
 
         private static ArmorType GetArmorType(Armor armor)
         {

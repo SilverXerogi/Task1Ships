@@ -4,102 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task1shipBattle.classes.ships;
-using Task1shipBattle.classes.weapons;
+
 
 namespace Task1shipBattle
 {
     class Program
     {
-        static void Main(String[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("ЭТАП 1: Тест кораблей\n");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var destroyer = new Destroyer("Эсминец ");
-            var cruiser = new Cruiser("Крейсер ", hasTorpedoTubes: true);
-            var cruiserNoTorpedo = new Cruiser("Крейсер ", hasTorpedoTubes: false);
-            var battleship = new Battleship("Линкор ");
+            var red = new Squadron("Красная эскадра");
+            var blue = new Squadron("Синяя эскадра");
 
-            Console.WriteLine("Созданные корабли");
-            Console.WriteLine(destroyer);
-            Console.WriteLine(cruiser);
-            Console.WriteLine(cruiserNoTorpedo);
-            Console.WriteLine(battleship);
+            red.AddShip(new Destroyer("Эсминец 'Грозный'"));
+            red.AddShip(new Cruiser("Крейсер 'Варяг'", hasTorpedoTubes: true));
+            red.AddShip(new Battleship("Линкор 'Полтава'"));
 
-            var apShell = Ammunition.CreateArmorPiercing();
-            var heShell = Ammunition.CreateHighExplosive();
-            var torpedo = Ammunition.CreateTorpedo();
+            blue.AddShip(new Destroyer("Эсминец 'Быстрый'"));
+            blue.AddShip(new Cruiser("Крейсер 'Аврора'", hasTorpedoTubes: false));
+            blue.AddShip(new Battleship("Линкор 'Севастополь'"));
 
-            var mainGun = Gun.CreateMainGun(apShell);
-            var universalGun = Gun.CreateUniversalGun(heShell);
-            var torpedoTube = Gun.CreateTorpedoTube(torpedo);
+            var warehouse = new Warehouse();
+            warehouse.EquipSquadronSmart(red);
+            warehouse.EquipSquadronSmart(blue);
 
-            var beltArmor = new ArmoredBelt();
-            var casemateArmor = new Kazemat();
+            red.SetTactic(new ConcentrationTactic());
+            blue.SetTactic(new PriorityTypeTactic());
 
-            Console.WriteLine("\nЭкипировка кораблей");
+            var battle = new Battle(red, blue);
+            battle.Start();
 
-            destroyer.Equip(torpedoTube, beltArmor);
-
-            cruiser.Equip(torpedoTube, casemateArmor);
-            cruiserNoTorpedo.Equip(universalGun, beltArmor);
-            battleship.Equip(mainGun, beltArmor);
-           
-
-            Console.WriteLine("\nТест урона и уклонения");
-
-            Console.WriteLine($"\n{destroyer.Name} (уклонение 15%):");
-            for (Int32 i = 0; i < 5; i++)
-            {
-                destroyer.TakeDamage(50);
-            }
-
-            Console.WriteLine($"\n{battleship.Name} (уклонение 0%):");
-            battleship.TakeDamage(100);
-            battleship.TakeDamage(100);
-
-            Console.WriteLine("\nФинальное состояние");
-            Console.WriteLine(destroyer);
-            Console.WriteLine(cruiser);
-            Console.WriteLine(cruiserNoTorpedo);
-            Console.WriteLine(battleship);
-
-
-            Console.WriteLine("\nЭТАП 2: Тест совместимости\n");
-
-            
-
-            // Создаем броню
-            Armor ptz = new AntiTorped();
-            Armor belt = new ArmoredBelt();
-
-            Console.WriteLine("Тест 1: Бронебойный vs ПТЗ (гасится)");
-            Single dmg1 = DamageCalculator.CalculateHit(mainGun, apShell, ptz);
-            Console.WriteLine($"ГК (бронебойный) vs ПТЗ: {dmg1} урона (ожидается: 0)");
-
-            Console.WriteLine("\nТест 2: Бронебойный vs Пояс");
-            Single dmg2 = DamageCalculator.CalculateHit(mainGun, apShell, belt);
-            Console.WriteLine($"ГК (бронебойный) vs Пояс: {dmg2} урона");
-
-            Console.WriteLine("\nТест 3: Торпеда из универсального орудия (запрещено)");
-            Boolean canFire = universalGun.CanFireWith(torpedo);
-            Console.WriteLine($"Универсальное орудие может стрелять торпедой: {canFire} (ожидается: False)");
-
-            Console.WriteLine("\nТест 4: Торпеда из торпедного аппарата");
-            Boolean canFire2 = torpedoTube.CanFireWith(torpedo);
-            Console.WriteLine($"Торпедный аппарат может стрелять торпедой: {canFire2} (ожидается: True)");
-
-            Console.WriteLine("\nТест 5: Бронебойный из торпедного аппарата (запрещено)");
-            Boolean canFire3 = torpedoTube.CanFireWith(apShell);
-            Console.WriteLine($"Торпедный аппарат может стрелять бронебойным: {canFire3} (ожидается: False)");
-
-            Console.WriteLine("\nТест 6: Торпеда vs ПТЗ (двойной урон)");
-            Single dmg6 = DamageCalculator.CalculateHit(torpedoTube, torpedo, ptz);
-            Console.WriteLine($"Торпеда vs ПТЗ: {dmg6} урона (ожидается: 40 = 20*2)");
-
-            Console.WriteLine("\nТест 7: Торпеда vs Пояс (игнорирует броню)");
-            Single dmg7 = DamageCalculator.CalculateHit(torpedoTube, torpedo, belt);
-            Console.WriteLine($"Торпеда vs Пояс: {dmg7} урона (ожидается: 20)");
+            Console.WriteLine("\nНажмите любую клавишу для выхода...");
+            Console.ReadKey();
         }
     }
- 
 }

@@ -9,13 +9,17 @@ namespace Task1shipBattle
     public class Projectile
     {
         public Ammunition Ammo { get; }
-        public Armor TargetArmor { get; }
-        public Int32 TurnsRemaining { get; private set; }
+        public Ship Target { get; set; }
+        public Ship Attacker { get; }
+        public Gun Gun { get; }
+        public int TurnsRemaining { get; private set; }
 
-        public Projectile(Ammunition ammo, Armor targetArmor, Int32 flightTurns)
+        public Projectile(Ammunition ammo, Ship attacker, Ship target, Gun gun, int flightTurns)
         {
             Ammo = ammo;
-            TargetArmor = targetArmor;
+            Attacker = attacker;
+            Target = target;
+            Gun = gun;
             TurnsRemaining = flightTurns;
         }
 
@@ -25,6 +29,6 @@ namespace Task1shipBattle
                 TurnsRemaining--;
         }
 
-        public Boolean HasArrived => TurnsRemaining <= 0;
+        public bool HasArrived => TurnsRemaining <= 0;
     }
 }

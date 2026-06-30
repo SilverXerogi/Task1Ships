@@ -25,6 +25,8 @@ namespace Task1shipBattle
 
         public List<Projectile> InFlightProjectiles { get; } = new List<Projectile>();
 
+        private static readonly Random random = new Random();
+
         private Gun(
             String name,
             GunType type,
@@ -49,27 +51,27 @@ namespace Task1shipBattle
         }
         public Single GetRandomDamage()
         {
-            return (Single)(Random.NextDouble()*(MaxDamage - MinDamage) + MinDamage;
+            return (Single)(random.NextDouble()*(MaxDamage - MinDamage) + MinDamage);
         }
         public static Gun CreateMainGun(Ammunition ammo)
         {
-            return new Gun("Башня ГК", GunType.MainGun, 2, 
+            return new Gun("Башня ГК", GunType.MainGun, 2, ammo,
                 minDamage:40f, maxDamage:50f, 
-                ammo penetratesAllArmor: true);
+                penetratesAllArmor: true);
         }
 
         public static Gun CreateUniversalGun(Ammunition ammo)
         {
-            return new Gun("Универсальное орудие", GunType.Universal, 1,
+            return new Gun("Универсальное орудие", GunType.Universal, 1, ammo,
                 minDamage: 20f, maxDamage: 30f,
-                ammo, penetratesArmor: ArmorType.Kazemat);
+                penetratesArmor: ArmorType.Kazemat);
         }
 
         public static Gun CreateTorpedoTube(Ammunition ammo)
         {
-            return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1,
+            return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1, ammo,
                 minDamage: 35f, maxDamage: 45f,
-                ammo, ignoresArmor: true);
+                ignoresArmor: true);
         }
         public Boolean CanFireWith(Ammunition ammo)
         {
@@ -99,28 +101,22 @@ namespace Task1shipBattle
             return arrived;
         }
 
-        public Boolean TryFire(Armor targetArmor, out Projectile firedProjectile)
+        public bool TryFire(Ship attacker, Ship target, out Projectile firedProjectile)
         {
             firedProjectile = null;
             if (!IsReady)
                 return false;
 
             if (!CanFireWith(DefaultAmmo))
-            {
-                Console.WriteLine($"{Name} не может стрелять снарядом {DefaultAmmo.GetName()}!");
                 return false;
-            }
 
             CurrentCooldown = ReloadTurns;
 
+            firedProjectile = new Projectile(DefaultAmmo, attacker, target, this, DefaultAmmo.FlightTurns);
+
             if (DefaultAmmo.FlightTurns > 0)
             {
-                firedProjectile = new Projectile(DefaultAmmo, targetArmor, DefaultAmmo.FlightTurns);
                 InFlightProjectiles.Add(firedProjectile);
-            }
-            else
-            {
-                firedProjectile = new Projectile(DefaultAmmo, targetArmor, 0);
             }
 
             return true;

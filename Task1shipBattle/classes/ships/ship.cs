@@ -13,7 +13,9 @@ namespace Task1shipBattle
         public ShipType Type { get;}
         public Single MaxHP { get;}
         public Single CurrentHP { get; private set; }
-        public Single EvasionChance { get;} 
+        public Single EvasionChance { get;}
+
+        public virtual Single RicochetChance => 0f;
 
         public Gun Gun { get; private set; }
         public Armor Armor { get; private set; }
@@ -62,19 +64,13 @@ namespace Task1shipBattle
 
             if (TryEvade())
             {
-                Console.WriteLine($"{Name} уклонился от атаки");
                 return 0;
             }
 
             CurrentHP -= damage;
             if (CurrentHP < 0) CurrentHP = 0;
 
-            Console.WriteLine($"{Name} получил {damage:F1} урона. HP: {CurrentHP:F1}/{MaxHP}");
 
-            if (!IsAlive)
-            {
-                Console.WriteLine($"{Name} УНИЧТОЖЕН!");
-            }
 
             return damage;
         }
@@ -89,5 +85,12 @@ namespace Task1shipBattle
         {
             return $"{Name} ({Type}) - HP: {CurrentHP:F0}/{MaxHP:F0}, Уклонение: {EvasionChance:P0}";
         }
+
+        public bool TryRicochet()
+        {
+            if (RicochetChance <= 0) return false;
+            return random.NextDouble() < RicochetChance;
+        }
+
     }
 }                                   
