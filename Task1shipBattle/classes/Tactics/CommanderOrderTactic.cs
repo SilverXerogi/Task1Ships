@@ -14,13 +14,12 @@ namespace Task1shipBattle
 
         public Ship SelectTarget(Ship attacker, Squadron enemySquadron, Squadron allySquadron)
         {
-            var aliveEnemies = enemySquadron.GetAliveShips();
-            if (aliveEnemies.Count == 0) return null;
-
             Ship target = allySquadron.CommanderTarget;
 
-            if (target == null || !target.IsAlive)
+            if (target == null || !target.IsAlive || !enemySquadron.Ships.Contains(target))
             {
+                var aliveEnemies = enemySquadron.GetAliveShips();
+                if (aliveEnemies.Count == 0) return null;
                 target = aliveEnemies[random.Next(aliveEnemies.Count)];
             }
 

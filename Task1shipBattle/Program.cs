@@ -14,29 +14,37 @@ namespace Task1shipBattle
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var red = new Squadron("Красная эскадра");
-            var blue = new Squadron("Синяя эскадра");
+            var red = new Squadron("Красная");
+            var blue = new Squadron("Синяя");
+            var green = new Squadron("Зелёная");
 
+            // Красные
             red.AddShip(new Destroyer("Эсминец 'Грозный'"));
             red.AddShip(new Cruiser("Крейсер 'Варяг'", hasTorpedoTubes: true));
             red.AddShip(new Battleship("Линкор 'Полтава'"));
 
+            // Синие
             blue.AddShip(new Destroyer("Эсминец 'Быстрый'"));
             blue.AddShip(new Cruiser("Крейсер 'Аврора'", hasTorpedoTubes: false));
             blue.AddShip(new Battleship("Линкор 'Севастополь'"));
 
+            // Зелёные
+            green.AddShip(new Destroyer("Эсминец 'Смерч'"));
+            green.AddShip(new Cruiser("Крейсер 'Богатырь'", hasTorpedoTubes: true));
+            green.AddShip(new Battleship("Линкор 'Император'"));
+
             var warehouse = new Warehouse();
             warehouse.EquipSquadronSmart(red);
             warehouse.EquipSquadronSmart(blue);
+            warehouse.EquipSquadronSmart(green);
 
             red.SetTactic(new ConcentrationTactic());
             blue.SetTactic(new PriorityTypeTactic());
+            green.SetTactic(new HuntLeaderTactic());
 
-            var battle = new Battle(red, blue);
+            var battle = new Battle(red, blue, green);
             battle.Start();
 
-            Console.WriteLine("\nНажмите любую клавишу для выхода...");
-            Console.ReadKey();
         }
     }
 }

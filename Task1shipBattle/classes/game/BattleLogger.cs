@@ -17,7 +17,13 @@ namespace Task1shipBattle
             ConsoleColor.Green,
             ConsoleColor.Yellow,
             ConsoleColor.Magenta,
-            ConsoleColor.Cyan
+            ConsoleColor.Cyan,
+            ConsoleColor.DarkRed,
+            ConsoleColor.DarkBlue,
+            ConsoleColor.DarkGreen,
+            ConsoleColor.DarkMagenta,
+            ConsoleColor.DarkCyan,
+            ConsoleColor.DarkYellow
         };
 
         private int colorIndex = 0;
@@ -48,11 +54,10 @@ namespace Task1shipBattle
 
         private string GetSquadronTag(Squadron squadron)
         {
-            if (squadron.Name.Contains("Красн")) return "КРАСНАЯ";
-            if (squadron.Name.Contains("Синяя")) return "СИНЯЯ";
-            if (squadron.Name.Contains("Зелён")) return "ЗЕЛЁНАЯ";
-            if (squadron.Name.Contains("Жёлт")) return "ЖЁЛТАЯ";
-            return squadron.Name.Substring(0, Math.Min(7, squadron.Name.Length)).ToUpper();
+            string tag = squadron.Name.Length >= 25
+                ? squadron.Name.Substring(0, 25)
+                : squadron.Name;
+            return tag.ToUpper();
         }
 
         public void LogShot(Ship attacker, Squadron attackerSquadron, Gun gun,
