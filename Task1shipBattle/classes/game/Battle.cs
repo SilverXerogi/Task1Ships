@@ -80,7 +80,9 @@ namespace Task1shipBattle
 
             var allShots = new List<Projectile>();
 
-            foreach (var squadron in squadrons)
+            var shuffledSquadrons = squadrons.OrderBy(x => random.Next()).ToList();
+
+            foreach (var squadron in shuffledSquadrons)
             {
                 if (!squadron.HasAliveShips()) continue;
 
@@ -115,12 +117,21 @@ namespace Task1shipBattle
                 }
             }
 
+            var arrivedTorpedoes = globalProjectiles.Where(p => p.HasArrived).ToList();
+            if (arrivedTorpedoes.Count > 0)
+            {
+                Console.WriteLine("\nФАЗА ТОРПЕД:");
+                allShots.AddRange(arrivedTorpedoes);
+            }
+
+            allShots = allShots.OrderBy(x => random.Next()).ToList();
+
             foreach (var shot in allShots)
             {
                 ApplyDamage(shot);
             }
 
-            ProcessArrivedTorpedoes();
+            globalProjectiles.RemoveAll(p => p.HasArrived);
 
             foreach (var squadron in squadrons)
             {
@@ -134,16 +145,18 @@ namespace Task1shipBattle
 
         private Ship SelectTargetForShip(Ship ship, Squadron allySquadron, List<Squadron> enemySquadrons)
         {
+            var shuffledEnemies = enemySquadrons.OrderBy(x => random.Next()).ToList();
+
             if (allySquadron.Tactic != null)
             {
-                foreach (var enemySquadron in enemySquadrons)
+                foreach (var enemySquadron in shuffledEnemies)
                 {
                     var target = allySquadron.Tactic.SelectTarget(ship, enemySquadron, allySquadron);
                     if (target != null) return target;
                 }
             }
 
-            var allEnemies = enemySquadrons.SelectMany(s => s.GetAliveShips()).ToList();
+            var allEnemies = shuffledEnemies.SelectMany(s => s.GetAliveShips()).ToList();
             if (allEnemies.Count == 0) return null;
             return allEnemies[random.Next(allEnemies.Count)];
         }

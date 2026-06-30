@@ -14,35 +14,30 @@ namespace Task1shipBattle
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var red = new Squadron("Красная");
-            var blue = new Squadron("Синяя");
-            var green = new Squadron("Зелёная");
+            Console.Write("Введите количество команд (2-6): ");
+            int numSquadrons = int.Parse(Console.ReadLine());
 
-            // Красные
-            red.AddShip(new Destroyer("Эсминец 'Грозный'"));
-            red.AddShip(new Cruiser("Крейсер 'Варяг'", hasTorpedoTubes: true));
-            red.AddShip(new Battleship("Линкор 'Полтава'"));
+            string[] names = { "Красная", "Синяя", "Зелёная", "Жёлтая", "Фиолетовая", "Оранжевая" };
+            var squadrons = new List<Squadron>();
+            var random = new Random();
 
-            // Синие
-            blue.AddShip(new Destroyer("Эсминец 'Быстрый'"));
-            blue.AddShip(new Cruiser("Крейсер 'Аврора'", hasTorpedoTubes: false));
-            blue.AddShip(new Battleship("Линкор 'Севастополь'"));
-
-            // Зелёные
-            green.AddShip(new Destroyer("Эсминец 'Смерч'"));
-            green.AddShip(new Cruiser("Крейсер 'Богатырь'", hasTorpedoTubes: true));
-            green.AddShip(new Battleship("Линкор 'Император'"));
+            for (int i = 0; i < numSquadrons; i++)
+            {
+                var squadron = new Squadron(names[i]);
+                squadron.AddShip(new Destroyer($"Эсминец '{names[i]}'"));
+                squadron.AddShip(new Cruiser($"Крейсер '{names[i]}'", hasTorpedoTubes: random.Next(2) == 0));
+                squadron.AddShip(new Battleship($"Линкор '{names[i]}'"));
+                squadrons.Add(squadron);
+            }
 
             var warehouse = new Warehouse();
-            warehouse.EquipSquadronSmart(red);
-            warehouse.EquipSquadronSmart(blue);
-            warehouse.EquipSquadronSmart(green);
+            foreach (var squadron in squadrons)
+            {
+                warehouse.EquipSquadronSmart(squadron);
+                squadron.SetRandomTactic();
+            }
 
-            red.SetTactic(new ConcentrationTactic());
-            blue.SetTactic(new PriorityTypeTactic());
-            green.SetTactic(new HuntLeaderTactic());
-
-            var battle = new Battle(red, blue, green);
+            var battle = new Battle(squadrons.ToArray());
             battle.Start();
 
         }

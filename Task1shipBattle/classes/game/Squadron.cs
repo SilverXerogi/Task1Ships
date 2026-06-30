@@ -16,6 +16,17 @@ namespace Task1shipBattle
         public ITactic Tactic { get; set; }
         public Ship CommanderTarget { get; set; }
 
+        private static readonly Random random = new Random();
+
+        private static readonly ITactic[] allTactics = new ITactic[]
+        {
+            new CommanderOrderTactic(),
+            new HuntLeaderTactic(),
+            new FinishOffTactic(),
+            new ConcentrationTactic(),
+            new PriorityTypeTactic()
+        };
+
         public Squadron(String name) 
         {
             Name = name;
@@ -49,7 +60,11 @@ namespace Task1shipBattle
             Tactic = tactic;
             Console.WriteLine($"Эскадра '{Name}' использует тактику: {tactic.Name}");
         }
-
+        public void SetRandomTactic()
+        {
+            int index = random.Next(allTactics.Length);
+            Tactic = allTactics[index];
+        }
         public void SetCommanderTarget(Ship target)
         {
             CommanderTarget = target;
