@@ -90,4 +90,4 @@ namespace Task1shipBattle
             return $"{Name} ({Type}) - HP: {CurrentHP:F0}/{MaxHP:F0}, Уклонение: {EvasionChance:P0}";
         }
     }
-}
+}                                   

@@ -16,6 +16,9 @@ namespace Task1shipBattle
         public Boolean IsReady => CurrentCooldown <= 0;
         public Ammunition DefaultAmmo { get; private set; }
 
+        public Single MinDamage { get;}
+        public Single MaxDamage { get;}
+
         public Boolean PenetratesAllArmor { get; }
         public Boolean IgnoresArmor { get; } 
         public ArmorType PenetratesArmor { get; } 
@@ -27,6 +30,8 @@ namespace Task1shipBattle
             GunType type,
             Int32 reloadTurns,
             Ammunition defaultAmmo,
+            Single minDamage, 
+            Single maxDamage,
             Boolean penetratesAllArmor = false,
             Boolean ignoresArmor = false,
             ArmorType penetratesArmor = ArmorType.ArmoredBelt)
@@ -35,25 +40,36 @@ namespace Task1shipBattle
             Type = type;
             ReloadTurns = reloadTurns;
             DefaultAmmo = defaultAmmo;
+            MinDamage = minDamage; 
+            MaxDamage = maxDamage;
             CurrentCooldown = 0;
             PenetratesAllArmor = penetratesAllArmor;
             IgnoresArmor = ignoresArmor;
             PenetratesArmor = penetratesArmor;
         }
-
+        public Single GetRandomDamage()
+        {
+            return (Single)(Random.NextDouble()*(MaxDamage - MinDamage) + MinDamage;
+        }
         public static Gun CreateMainGun(Ammunition ammo)
         {
-            return new Gun("Башня ГК", GunType.MainGun, 2, ammo, penetratesAllArmor: true);
+            return new Gun("Башня ГК", GunType.MainGun, 2, 
+                minDamage:40f, maxDamage:50f, 
+                ammo penetratesAllArmor: true);
         }
 
         public static Gun CreateUniversalGun(Ammunition ammo)
         {
-            return new Gun("Универсальное орудие", GunType.Universal, 1, ammo, penetratesArmor: ArmorType.Kazemat);
+            return new Gun("Универсальное орудие", GunType.Universal, 1,
+                minDamage: 20f, maxDamage: 30f,
+                ammo, penetratesArmor: ArmorType.Kazemat);
         }
 
         public static Gun CreateTorpedoTube(Ammunition ammo)
         {
-            return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1, ammo, ignoresArmor: true);
+            return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1,
+                minDamage: 35f, maxDamage: 45f,
+                ammo, ignoresArmor: true);
         }
         public Boolean CanFireWith(Ammunition ammo)
         {

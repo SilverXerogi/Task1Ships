@@ -46,13 +46,15 @@
     <Compile Include="classes\armor\AntiTorped.cs" />
     <Compile Include="classes\armor\ArmoredBelt.cs" />
     <Compile Include="classes\armor\Kazemat.cs" />
+    <Compile Include="classes\game\Squadron.cs" />
+    <Compile Include="classes\game\WareHouse.cs" />
     <Compile Include="classes\ships\Battleship.cs" />
     <Compile Include="classes\ships\Cruiser.cs" />
     <Compile Include="classes\ships\Destroyer.cs" />
     <Compile Include="classes\weapons\Ammunition.cs" />
     <Compile Include="classes\armor\Armor.cs" />
     <Compile Include="classes\enums\Enums.cs" />
-    <Compile Include="classes\ships\ship.cs" />
+    <Compile Include="classes\ships\Ship.cs" />
     <Compile Include="classes\weapons\DamageCalculator.cs" />
     <Compile Include="classes\weapons\Gun.cs" />
     <Compile Include="classes\weapons\Projectile.cs" />

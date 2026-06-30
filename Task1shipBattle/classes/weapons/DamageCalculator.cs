@@ -11,7 +11,9 @@ namespace Task1shipBattle.classes.weapons
     {
         public static Single CalculateHit(Gun gun, Ammunition ammo, Armor targetArmor)
         {
-            Single baseDamage = ammo.BaseDamage;
+            Single gunDamage = gun.GetRandomDamage();
+            Single ammoDamage = ammo.BaseDamage;
+            Single totalBaseDamage = gunDamage + ammoDamage;
 
             if (ammo.Type == AmmoType.AP && targetArmor is AntiTorped)
             {
@@ -22,9 +24,9 @@ namespace Task1shipBattle.classes.weapons
             {
                 if (targetArmor is AntiTorped)
                 {
-                    return baseDamage * ammo.PenetrationMultiplier;
+                    return totalBaseDamage * ammo.PenetrationMultiplier;
                 }
-                return baseDamage;
+                return totalBaseDamage;
             }
 
             Boolean isPenetration = gun.PenetratesAllArmor ||
@@ -32,12 +34,12 @@ namespace Task1shipBattle.classes.weapons
 
             if (isPenetration)
             {
-                return baseDamage * ammo.PenetrationMultiplier;
+                return totalBaseDamage * ammo.PenetrationMultiplier;
             }
             else
             {
                 Single protection = targetArmor.GetDef(ammo.Type);
-                return baseDamage * (1 - protection);
+                return totalBaseDamage * (1 - protection);
             }
         }
 
