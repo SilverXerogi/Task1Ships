@@ -14,9 +14,13 @@ namespace Task1shipBattle
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            Console.Write("Введите количество команд (2-6): ");
-            int numSquadrons = int.Parse(Console.ReadLine());
 
+            int numSquadrons = 0;
+            while ((numSquadrons >= 6)^(numSquadrons<=2))
+            {
+                Console.Write("Введите количество команд (2-6): ");
+                numSquadrons = int.Parse(Console.ReadLine());
+            }
             string[] names = { "Красная", "Синяя", "Зелёная", "Жёлтая", "Фиолетовая", "Оранжевая" };
             var squadrons = new List<Squadron>();
             var random = new Random();

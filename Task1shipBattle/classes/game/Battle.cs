@@ -34,9 +34,9 @@ namespace Task1shipBattle
         public void Start()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine("║          НАЧАЛО МОРСКОГО БОЯ         ║");
-            Console.WriteLine("╚══════════════════════════════════════╝\n");
+     
+            Console.WriteLine("          НАЧАЛО МОРСКОГО БОЯ         ");
+
             Console.ResetColor();
 
             foreach (var squadron in squadrons)
@@ -53,9 +53,7 @@ namespace Task1shipBattle
                 turnCount++;
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"\n{new string('═', 40)}");
-                Console.WriteLine($"          ХОД {turnCount}");
-                Console.WriteLine(new string('═', 40));
+                Console.WriteLine($"\n          ХОД {turnCount}");
                 Console.ResetColor();
 
                 ExecuteTurn();
@@ -279,9 +277,7 @@ namespace Task1shipBattle
         private void PrintBattleResults()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"\n╔{new string('═', 39)}╗");
-            Console.WriteLine("║           ИТОГИ МОРСКОГО БОЯ          ║");
-            Console.WriteLine($"╚{new string('═', 39)}╝");
+            Console.WriteLine("           ИТОГИ МОРСКОГО БОЯ          ");
             Console.ResetColor();
 
             Console.WriteLine($"\nБой длился {turnCount} ходов\n");

@@ -66,7 +66,7 @@ namespace Task1shipBattle
 
         public void EquipSquadron(Squadron squadron)
         {
-            Console.WriteLine($"\n=== Снаряжение эскадры '{squadron.Name}' ===");
+            Console.WriteLine($"\nСнаряжение эскадры '{squadron.Name}'");
 
             foreach (var ship in squadron.Ships)
             {
@@ -78,14 +78,14 @@ namespace Task1shipBattle
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"✗ Ошибка при снаряжении {ship.Name}: {ex.Message}");
+                    Console.WriteLine($"Ошибка при снаряжении {ship.Name}: {ex.Message}");
                 }
             }
         }
 
         public void EquipSquadronSmart(Squadron squadron)
         {
-            Console.WriteLine($"\n=== Умное снаряжение эскадры '{squadron.Name}' ===");
+            Console.WriteLine($"\nУмное снаряжение эскадры '{squadron.Name}'");
 
             foreach (var ship in squadron.Ships)
             {
