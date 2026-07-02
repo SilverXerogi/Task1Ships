@@ -14,6 +14,8 @@ namespace Task1shipBattle
 
         public override Boolean CanEquipTorpedoTube => HasTorpedoTubes;
 
+        public override Int32 MaxInventoryWeight => 1200;
+
         public Cruiser(String name = "Крейсер", Boolean hasTorpedoTubes = false): base(name, ShipType.Cruiser, maxHP: 580f, evasionChance: 0.07f)
         {
             HasTorpedoTubes = hasTorpedoTubes;

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task1shipBattle.classes.Equipment;
 using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
 {
-    public class Gun
+    public class Gun : Equipment
     {
         public String Name { get; }
         public GunType Type { get; }
@@ -34,9 +35,11 @@ namespace Task1shipBattle
             Ammunition defaultAmmo,
             Single minDamage, 
             Single maxDamage,
+            Int32 weight,
             Boolean penetratesAllArmor = false,
             Boolean ignoresArmor = false,
             ArmorType penetratesArmor = ArmorType.ArmoredBelt)
+            : base(weight)
         {
             Name = name;
             Type = type;
@@ -57,21 +60,21 @@ namespace Task1shipBattle
         {
             return new Gun("Башня ГК", GunType.MainGun, 2, ammo,
                 minDamage:40f, maxDamage:50f, 
-                penetratesAllArmor: true);
+                penetratesAllArmor: true, weight: 50);
         }
 
         public static Gun CreateUniversalGun(Ammunition ammo)
         {
             return new Gun("Универсальное орудие", GunType.Universal, 1, ammo,
                 minDamage: 20f, maxDamage: 30f,
-                penetratesArmor: ArmorType.Kazemat);
+                penetratesArmor: ArmorType.Kazemat, weight: 25);
         }
 
         public static Gun CreateTorpedoTube(Ammunition ammo)
         {
             return new Gun("Торпедный аппарат", GunType.TorpedoTube, 1, ammo,
                 minDamage: 35f, maxDamage: 45f,
-                ignoresArmor: true);
+                ignoresArmor: true, weight: 35);
         }
         public Boolean CanFireWith(Ammunition ammo)
         {
@@ -109,6 +112,11 @@ namespace Task1shipBattle
 
             if (!CanFireWith(DefaultAmmo))
                 return false;
+            if (!attacker.ConsumeAmmo(DefaultAmmo.Type))
+            {
+                Console.WriteLine($"{attacker.Name}: нет снарядов для {Name}!");
+                return false;
+            }
 
             CurrentCooldown = ReloadTurns;
 

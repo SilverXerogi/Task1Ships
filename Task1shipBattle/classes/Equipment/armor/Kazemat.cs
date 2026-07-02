@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 using static Task1shipBattle.Enums;
 using static Task1shipBattle.Armor;
 
+
 namespace Task1shipBattle
 {
-    public class AntiTorped : Armor
+    public class Kazemat : Armor
     {
-        public AntiTorped() : base("Противоторпедная защита")
+        public Kazemat() : base("Казематная броня", weight: 20)
         {
 
         }
         public override Single GetDef(AmmoType ammoType)
         {
-            if (ammoType == AmmoType.Torped)
-            {
-                return 0.5f;
-            }
-            return 0.15f;
+            return 0.25f;
         }
     }
 }

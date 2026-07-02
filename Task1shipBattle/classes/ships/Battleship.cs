@@ -13,6 +13,8 @@ namespace Task1shipBattle.classes.ships
 
         public override Single RicochetChance => 0.20f;
 
+        public override Int32 MaxInventoryWeight => 1800;
+
         public Battleship(String name = "Линкор"): base(name, ShipType.Battleship, maxHP: 820f, evasionChance: 0f){ }
     }
 }

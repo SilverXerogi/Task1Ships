@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 using static Task1shipBattle.Enums;
 using static Task1shipBattle.Armor;
 
-
 namespace Task1shipBattle
 {
-    public class Kazemat : Armor
+    public class ArmoredBelt : Armor
     {
-        public Kazemat() : base("Казематная броня")
+        public ArmoredBelt() : base("Броневой пояс по ватерлинии", weight: 30)
         {
 
         }
         public override Single GetDef(AmmoType ammoType)
         {
-            return 0.25f;
+            return 0.3f;
         }
     }
 }

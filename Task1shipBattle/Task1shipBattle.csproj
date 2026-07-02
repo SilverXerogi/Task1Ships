@@ -43,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\armor\AntiTorped.cs" />
-    <Compile Include="classes\armor\ArmoredBelt.cs" />
-    <Compile Include="classes\armor\Kazemat.cs" />
+    <Compile Include="classes\Equipment\armor\AntiTorped.cs" />
+    <Compile Include="classes\Equipment\armor\ArmoredBelt.cs" />
+    <Compile Include="classes\Equipment\armor\Kazemat.cs" />
+    <Compile Include="classes\Equipment\Equipment.cs" />
+    <Compile Include="classes\Equipment\Inventory.cs" />
     <Compile Include="classes\game\Battle.cs" />
     <Compile Include="classes\game\BattleLogger.cs" />
     <Compile Include="classes\game\Squadron.cs" />
@@ -59,13 +61,13 @@
     <Compile Include="classes\Tactics\HuntLeaderTactic.cs" />
     <Compile Include="classes\Tactics\ITactic.cs" />
     <Compile Include="classes\Tactics\PriorityTypeTactic.cs" />
-    <Compile Include="classes\weapons\Ammunition.cs" />
-    <Compile Include="classes\armor\Armor.cs" />
+    <Compile Include="classes\Equipment\weapons\Ammunition.cs" />
+    <Compile Include="classes\Equipment\armor\Armor.cs" />
     <Compile Include="classes\enums\Enums.cs" />
     <Compile Include="classes\ships\Ship.cs" />
-    <Compile Include="classes\weapons\DamageCalculator.cs" />
-    <Compile Include="classes\weapons\Gun.cs" />
-    <Compile Include="classes\weapons\Projectile.cs" />
+    <Compile Include="classes\Equipment\weapons\DamageCalculator.cs" />
+    <Compile Include="classes\Equipment\weapons\Gun.cs" />
+    <Compile Include="classes\Equipment\weapons\Projectile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

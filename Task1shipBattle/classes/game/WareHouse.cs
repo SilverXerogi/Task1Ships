@@ -75,6 +75,9 @@ namespace Task1shipBattle
                     var gun = GetRandomGun(ship);
                     var armor = GetRandomArmor();
                     ship.Equip(gun, armor);
+
+                    var ammo = GetRandomAmmoForGun(gun);
+                    ship.LoadAmmunitionToMax(ammo);
                 }
                 catch (Exception ex)
                 {
@@ -91,13 +94,14 @@ namespace Task1shipBattle
             {
                 Gun gun = null;
                 Armor armor = null;
-
+                Ammunition ammo = null;
                 switch (ship.Type)
                 {
                     case ShipType.Destroyer:
                         
                         gun = Gun.CreateTorpedoTube(Ammunition.CreateTorpedo());
                         armor = new AntiTorped();
+                        ammo = Ammunition.CreateTorpedo();
                         break;
 
                     case ShipType.Cruiser:
@@ -106,11 +110,13 @@ namespace Task1shipBattle
                         {
                             gun = Gun.CreateUniversalGun(Ammunition.CreateHighExplosive());
                             armor = new Kazemat();
+                            ammo = Ammunition.CreateHighExplosive();
                         }
                         else
                         {
                             gun = Gun.CreateMainGun(Ammunition.CreateArmorPiercing());
                             armor = new ArmoredBelt();
+                            ammo = Ammunition.CreateArmorPiercing();
                         }
                         break;
 
@@ -118,10 +124,24 @@ namespace Task1shipBattle
                       
                         gun = Gun.CreateMainGun(Ammunition.CreateArmorPiercing());
                         armor = new ArmoredBelt();
+                        ammo = Ammunition.CreateArmorPiercing();
                         break;
                 }
 
-                ship.Equip(gun, armor);
+                try
+                {
+                    ship.Equip(gun, armor);
+                    ship.LoadAmmunitionToMax(ammo);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (!ship.AddAmmunition(gun.DefaultAmmo))
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при снаряжении {ship.Name}: {ex.Message}");
+                }
             }
         }
     }

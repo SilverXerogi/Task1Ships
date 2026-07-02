@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task1shipBattle.classes.Equipment;
 using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
 {
    
-    public abstract class Armor
+    public abstract class Armor : Equipment
     {
         public String Name { get;}
              
-        public Armor(String Name)
+        public Armor(string name, Int32 weight) : base(weight)
         {
-            this.Name = Name;
+            this.Name = name;
             
         }
 

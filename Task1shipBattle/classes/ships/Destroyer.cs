@@ -11,6 +11,8 @@ namespace Task1shipBattle
     {
         public override Boolean CanEquipTorpedoTube => true;
 
+        public override Int32 MaxInventoryWeight => 800;
+
         public Destroyer(String name = "Эсминец"): base(name, ShipType.Destroyer, maxHP: 400f, evasionChance: 0.15f){ }
     }
 }

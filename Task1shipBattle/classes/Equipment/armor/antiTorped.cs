@@ -8,15 +8,19 @@ using static Task1shipBattle.Armor;
 
 namespace Task1shipBattle
 {
-    public class ArmoredBelt : Armor
+    public class AntiTorped : Armor
     {
-        public ArmoredBelt() : base("Броневой пояс по ватерлинии")
+        public AntiTorped() : base("Противоторпедная защита", weight: 25)
         {
 
         }
         public override Single GetDef(AmmoType ammoType)
         {
-            return 0.3f;
+            if (ammoType == AmmoType.Torped)
+            {
+                return 0.5f;
+            }
+            return 0.15f;
         }
     }
 }

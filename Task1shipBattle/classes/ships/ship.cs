@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task1shipBattle.classes.Equipment;
 using static Task1shipBattle.Enums;
 
 namespace Task1shipBattle
@@ -17,8 +18,12 @@ namespace Task1shipBattle
 
         public virtual Single RicochetChance => 0f;
 
-        public Gun Gun { get; private set; }
-        public Armor Armor { get; private set; }
+
+        public Inventory Inventory { get; }
+        public abstract Int32 MaxInventoryWeight { get; }
+
+        public Gun Gun => Inventory.Guns.FirstOrDefault();
+        public Armor Armor => Inventory.Armors.FirstOrDefault();
 
         public Boolean IsAlive => CurrentHP > 0;
 
@@ -33,6 +38,7 @@ namespace Task1shipBattle
             MaxHP = maxHP;
             CurrentHP = maxHP;
             EvasionChance = evasionChance;
+            Inventory = new Inventory(MaxInventoryWeight);
         }
 
 
@@ -45,11 +51,22 @@ namespace Task1shipBattle
                     $"{Name} ({Type}) не может быть оснащён торпедными аппаратами!");
             }
 
-            Gun = gun;
-            Armor = armor;
+            Boolean gunAdded = Inventory.AddEquipment(gun);
+            Boolean armorAdded = Inventory.AddEquipment(armor);
+            if (!gunAdded || !armorAdded)
+            {
+                throw new InvalidOperationException(
+                    $"{Name}: не хватает грузоподъёмности для экипировки! " +
+                    $"Вес: {gun.Weight + armor.Weight}, " +
+                    $"свободно: {Inventory.MaxWeight - Inventory.CurrentWeight}");
+            }
+
             Console.WriteLine($"{Name} оснащён: {gun.Name} + {armor.Name}");
         }
-
+        public Boolean AddAmmunition(Ammunition ammo)
+        {
+            return Inventory.AddEquipment(ammo);
+        }
         public Boolean TryEvade()
         {
             if (EvasionChance <= 0) return false;
@@ -92,5 +109,38 @@ namespace Task1shipBattle
             return random.NextDouble() < RicochetChance;
         }
 
+        public Int32 LoadAmmunitionToMax(Ammunition ammo)
+        {
+            if (Gun == null)
+                throw new InvalidOperationException($"{Name}: сначала установи орудие!");
+
+            if (!Gun.CanFireWith(ammo))
+                throw new InvalidOperationException(
+                    $"{Name}: {ammo.GetName()} несовместим с {Gun.Name}!");
+
+            Int32 loaded = 0;
+            
+            while (Inventory.AddEquipment(ammo))
+            {
+                loaded++;
+            }
+
+            Console.WriteLine($"{Name}: загружено {loaded} {ammo.GetName()} под завязку " +
+                $"(вес: {Inventory.CurrentWeight}/{Inventory.MaxWeight})");
+            return loaded;
+        }
+        public Boolean ConsumeAmmo(AmmoType type)
+        {
+            var ammo = Inventory.Ammunitions.FirstOrDefault(a => a.Type == type);
+            if (ammo == null)
+                return false;
+
+            Inventory.RemoveEquipment(ammo);
+            return true;
+        }
+        public Int32 GetAmmoCount(AmmoType type)
+        {
+            return Inventory.Ammunitions.Count(a => a.Type == type);
+        }
     }
 }                                   
