@@ -12,7 +12,7 @@ namespace Task1shipBattle
         string Name { get; }
         /// attacker Атакующий корабль
         /// enemySquadron Вражеская эскадра
-        /// allySquadron Своя эскадра (нужна для приказа командира)
+        /// allySquadron Своя эскадра 
         Ship SelectTarget(Ship attacker, Squadron enemySquadron, Squadron allySquadron);
     }
 }
